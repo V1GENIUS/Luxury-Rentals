@@ -1,10 +1,8 @@
 const mongoose = require('mongoose');
-require('dotenv').config();  // To use .env variables
+require('dotenv').config();  
 
-// MongoDB URI from .env file
-const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017/server';  // Fallback URI
+const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017/server';
 
-// MongoDB Connection Function
 mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,

@@ -1,4 +1,3 @@
-// routes/villaRoutes.js
 const express = require('express');
 const router = express.Router();
 const { getAllVillas, addVilla, updateVilla, deleteVilla, getVillaById } = require('../Controller/villaController');
@@ -14,18 +13,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir);
 }
 
-
-
-
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, uploadDir);
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-//     cb(null, 'IMAGE-' + uniqueSuffix + path.extname(file.originalname));
-//   }
-// });
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, 'uploads/');
@@ -34,8 +21,6 @@ const storage = multer.diskStorage({
     cb(null, Date.now() + '-' + file.originalname);
   },
 });
-
-//const upload = multer({ storage: storage });
 
 
 const upload = multer({
@@ -48,11 +33,11 @@ const upload = multer({
 
 
 function checkFileType(file, cb) {
-  // Allowed extensions
+ 
   const filetypes = /jpeg|jpg|png|gif/;
-  // Check extension
+ 
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  // Check MIME type
+ 
   const mimetype = filetypes.test(file.mimetype);
   if (mimetype && extname) {
     return cb(null, true);

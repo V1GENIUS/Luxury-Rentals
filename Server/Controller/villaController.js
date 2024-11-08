@@ -1,4 +1,4 @@
-const Villa = require('../Module/Villa'); // Adjust path as necessary
+const Villa = require('../Module/Villa');
 
 const addVilla = async (req, res) => {
     try {
@@ -48,13 +48,11 @@ const updateVilla = async (req, res) => {
         return res.status(400).json({ message: 'All villa fields are required.' });
       }
 
-      
+
       let villa = await Villa.findById(villaId);
       if (!villa) {
         return res.status(404).json({ message: 'Villa not found.' });
       }
-
-     
       villa.Villaname = Villaname;
       villa.price = price;
       villa.location = location;
@@ -64,7 +62,7 @@ const updateVilla = async (req, res) => {
       villa.area = area;
       villa.bathrooms = bathrooms;
 
-      // If a new image is uploaded, update the Imageview field
+
       if (req.file) {
         villa.Imageview = `http://localhost:${process.env.PORT}/uploads/${req.file.filename}`;
       }
@@ -73,14 +71,13 @@ const updateVilla = async (req, res) => {
 
       res.status(200).json(villa);
     } catch (error) {
-      console.error('Error updating villa:', error); 
+      console.error('Error updating villa:', error);
       res.status(500).json({ message: `Error updating villa: ${error.message}` });
 
     }
   };
 
 const deleteVilla = async (req, res) => {
-  
     try {
       const villaId = req.params.id;
 
@@ -101,13 +98,32 @@ const deleteVilla = async (req, res) => {
 
 const getAllVillas = async (req, res) => {
   try {
-    const villas = await Villa.find().sort({ createdAt: -1 }); // Latest first
-    res.status(200).json(villas);
+    const villas = await Villa.find().sort({ createdAt: -1 });
+     res.status(200).json(villas);
   } catch (error) {
     console.error('Error fetching villas:', error.message);
     res.status(500).json({ message: 'Server error while fetching villas.' });
   }
 };
+
+// const geAllVillas = async (req, res) => {
+//   try {
+      
+
+//       const villas = await Villa.find().sort({ createdAt: -1 }).skip(skip).limit(limit);
+//       const totalVillas = await Villa.countDocuments(); // Total number of villas
+
+//       res.status(200).json({
+//           totalVillas,
+//           page,
+//           villas,
+//       });
+//   } catch (error) {
+//       console.error('Error fetching villas:', error.message);
+//       res.status(500).json({ message: 'Server error while fetching villas.' });
+//   }
+// };
+
 
 // Get a single villa by ID
 const getVillaById = async (req, res) => {

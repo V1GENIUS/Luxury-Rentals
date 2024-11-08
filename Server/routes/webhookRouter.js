@@ -1,9 +1,8 @@
-// webhookRouter.js
 
 const express = require('express');
 const router = express.Router();
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Payment = require('./models/Payment'); // सुनिश्चित करें कि पथ सही है
+const Payment = require('./models/Payment');
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 

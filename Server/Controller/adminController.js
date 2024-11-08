@@ -5,30 +5,10 @@ const bcrypt = require('bcryptjs');
 // Generate JWT Token
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET_KEY, {
-    expiresIn: '30d',
+    expiresIn: '1d',
   });
 };
 
-// Admin login
-// exports.adminLogin = async (req, res) => {
-//   const { email, password } = req.body;
-//   try {
-//     const admin = await Admin.findOne({ email });
-
-//     // Check if admin exists and password matches
-//     if (admin && (await bcrypt.compare(password, admin.password))) {
-//       res.json({
-//         id: admin._id,
-//         email: admin.email,
-//         token: generateToken(admin._id),
-//       });
-//     } else {
-//       res.status(401).json({ message: 'Invalid email or password' });
-//     }
-//   } catch (error) {
-//     res.status(500).json({ message: 'Server Error' });
-//   }
-// };
 
 exports.adminLogin = async (req, res) => {
   const { email, password } = req.body;
@@ -41,7 +21,7 @@ exports.adminLogin = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password' });
     }
 
-    // Compare the provided password with the stored hashed password
+    
     const isPasswordCorrect = await bcrypt.compare(password, admin.password);
 
     if (!isPasswordCorrect) {
@@ -60,22 +40,22 @@ exports.adminLogin = async (req, res) => {
       token: token,
     });
   } catch (error) {
-    console.error('Error during admin login:', error);  // Log the exact error for debugging
+    console.error('Error during admin login:', error);  
     res.status(500).json({ message: 'Server Error' });
   }
 };
 
-// Admin registration (optional for setting up admin)
+
 exports.registerAdmin = async (req, res) => {
   const { email, password } = req.body;
   try {
-    // Check if the admin already exists
+    
     const existingAdmin = await Admin.findOne({ email });
     if (existingAdmin) {
       return res.status(400).json({ message: 'Admin already exists' });
     }
 
-    // Hash the password before saving
+    
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Create the admin
